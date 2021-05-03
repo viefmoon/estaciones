@@ -8,10 +8,11 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/include",
-                "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/src",
+                "C:/Users/lmora/Desktop/modbus/include",
+                "C:/Users/lmora/Desktop/modbus/src",
                 "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
                 "C:/Users/lmora/.platformio/lib/Adafruit FONA Library_ID634",
+                "C:/Users/lmora/.platformio/lib/DateTime",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/variants/mega",
@@ -21,7 +22,6 @@
                 "C:/Users/lmora/.platformio/lib/BarometerIIC",
                 "C:/Users/lmora/.platformio/lib/DFRobot_ADS1115",
                 "C:/Users/lmora/.platformio/lib/DFRobot_BMP388",
-                "C:/Users/lmora/.platformio/lib/DateTime",
                 "C:/Users/lmora/.platformio/lib/DevisAnenometer",
                 "C:/Users/lmora/.platformio/lib/DevisPluviometer",
                 "C:/Users/lmora/.platformio/lib/GpsSerial",
@@ -41,10 +41,11 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/include",
-                    "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/src",
+                    "C:/Users/lmora/Desktop/modbus/include",
+                    "C:/Users/lmora/Desktop/modbus/src",
                     "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
                     "C:/Users/lmora/.platformio/lib/Adafruit FONA Library_ID634",
+                    "C:/Users/lmora/.platformio/lib/DateTime",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/variants/mega",
@@ -54,7 +55,6 @@
                     "C:/Users/lmora/.platformio/lib/BarometerIIC",
                     "C:/Users/lmora/.platformio/lib/DFRobot_ADS1115",
                     "C:/Users/lmora/.platformio/lib/DFRobot_BMP388",
-                    "C:/Users/lmora/.platformio/lib/DateTime",
                     "C:/Users/lmora/.platformio/lib/DevisAnenometer",
                     "C:/Users/lmora/.platformio/lib/DevisPluviometer",
                     "C:/Users/lmora/.platformio/lib/GpsSerial",
