@@ -1,0 +1,94 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/include",
+                "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/src",
+                "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
+                "C:/Users/lmora/.platformio/lib/Adafruit FONA Library_ID634",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/variants/mega",
+                "C:/Users/lmora/.platformio/lib/Adafruit GPS Library/src",
+                "C:/Users/lmora/.platformio/lib/AdcIIC",
+                "C:/Users/lmora/.platformio/lib/ApogeeSensor",
+                "C:/Users/lmora/.platformio/lib/BarometerIIC",
+                "C:/Users/lmora/.platformio/lib/DFRobot_ADS1115",
+                "C:/Users/lmora/.platformio/lib/DFRobot_BMP388",
+                "C:/Users/lmora/.platformio/lib/DateTime",
+                "C:/Users/lmora/.platformio/lib/DevisAnenometer",
+                "C:/Users/lmora/.platformio/lib/DevisPluviometer",
+                "C:/Users/lmora/.platformio/lib/GpsSerial",
+                "C:/Users/lmora/.platformio/lib/GravityRtc",
+                "C:/Users/lmora/.platformio/lib/InterruptionSensor",
+                "C:/Users/lmora/.platformio/lib/LinkedList",
+                "C:/Users/lmora/.platformio/lib/Logger",
+                "C:/Users/lmora/.platformio/lib/SmartPtr",
+                "C:/Users/lmora/.platformio/lib/SoftwareSerial",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "C:/Users/lmora/.platformio/packages/tool-unity",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/include",
+                    "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/src",
+                    "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
+                    "C:/Users/lmora/.platformio/lib/Adafruit FONA Library_ID634",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/variants/mega",
+                    "C:/Users/lmora/.platformio/lib/Adafruit GPS Library/src",
+                    "C:/Users/lmora/.platformio/lib/AdcIIC",
+                    "C:/Users/lmora/.platformio/lib/ApogeeSensor",
+                    "C:/Users/lmora/.platformio/lib/BarometerIIC",
+                    "C:/Users/lmora/.platformio/lib/DFRobot_ADS1115",
+                    "C:/Users/lmora/.platformio/lib/DFRobot_BMP388",
+                    "C:/Users/lmora/.platformio/lib/DateTime",
+                    "C:/Users/lmora/.platformio/lib/DevisAnenometer",
+                    "C:/Users/lmora/.platformio/lib/DevisPluviometer",
+                    "C:/Users/lmora/.platformio/lib/GpsSerial",
+                    "C:/Users/lmora/.platformio/lib/GravityRtc",
+                    "C:/Users/lmora/.platformio/lib/InterruptionSensor",
+                    "C:/Users/lmora/.platformio/lib/LinkedList",
+                    "C:/Users/lmora/.platformio/lib/Logger",
+                    "C:/Users/lmora/.platformio/lib/SmartPtr",
+                    "C:/Users/lmora/.platformio/lib/SoftwareSerial",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "C:/Users/lmora/.platformio/packages/tool-unity",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=50101",
+                "ARDUINO_AVR_MEGA2560",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega2560__",
+                ""
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "C:/Users/lmora/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega2560",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
