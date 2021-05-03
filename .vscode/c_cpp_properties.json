@@ -8,8 +8,8 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "C:/Users/lmora/Desktop/modbus/include",
-                "C:/Users/lmora/Desktop/modbus/src",
+                "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/include",
+                "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/src",
                 "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
                 "C:/Users/lmora/.platformio/lib/Adafruit FONA Library_ID634",
                 "C:/Users/lmora/.platformio/lib/DateTime",
@@ -41,8 +41,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "C:/Users/lmora/Desktop/modbus/include",
-                    "C:/Users/lmora/Desktop/modbus/src",
+                    "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/include",
+                    "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/src",
                     "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
                     "C:/Users/lmora/.platformio/lib/Adafruit FONA Library_ID634",
                     "C:/Users/lmora/.platformio/lib/DateTime",
