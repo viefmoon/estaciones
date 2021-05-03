@@ -3,6 +3,7 @@
 #include <Adafruit_FONA.h>
 #include <ArduinoJson.h>
 #include "json/json.h"
+#include "macro.h"
 
 const uint16_t BUFF_SIZE = 1536;
 char data[BUFF_SIZE];
@@ -26,59 +27,59 @@ void SIM_808::RESET_SIM808()
 void SIM_808::GSM_CheckStatus()
 {
     uint8_t n = SIM808.getNetworkStatus();
-    Serial.println("Fona network status: ");
+    Sprintln(F("Fona network status: "));
     if (n == 0){
-        Serial.println("Not registered");}
+        Sprintln(F("Not registered: "));}
     if (n == 1){
-        Serial.println("Registered (home)");}
+        Sprintln(F("Registered (home)"));}
     if (n == 2){
-        Serial.println("Not registered (searching)");}
+        Sprintln(F("Not registered (searching)"));}
     if (n == 3){
-        Serial.println("Denied");}
+        Sprintln(F("Denied"));}
     if (n == 4){
-        Serial.println("Unknown");}
+        Sprintln(F("Unknown"));}
     if (n == 5){
-        Serial.println("Registered roaming");
+        Sprintln(F("Registered roaming"));
     }
 
     char ccid_buff[22];
     SIM808.getSIMCCID(ccid_buff);
-    Serial.print("Fona SIM CCID: ");
-    Serial.println(ccid_buff);
+    Sprint(F("Fona SIM CCID: "));
+    Sprint(ccid_buff);
 }
 
 
-void SIM_808::setup_SIM808()
+bool SIM_808::setup_SIM808()
 {
     RESET_SIM808();
     SIM808.setGPRSNetworkSettings(F("internet.itelcel.com"), F("webgprs"), F("webgprs2002"));
-    bool is_SIM808_Begined = false;
 
     SIM808_SERIAL.begin(SIM808_SERIAL_BAUDRATE);
-    is_SIM808_Begined  = SIM808.begin(SIM808_SERIAL);
 
-    if (!is_SIM808_Begined)
+    if (!SIM808.begin(SIM808_SERIAL))
     {
-        Serial.println("SIM808 do not started");
+        Sprintln(F("SIM808 do not started"));
+        RESET_SIM808();
+        return false;
     }
     else
     {   
-        Serial.println("SIM808 started");
-        SIM808.enableRTC(true);
-        if (!SIM808.enableGPRS(true))
-        {
-            Serial.println("Can't begin GPRS");
-        }
+        Sprintln(F("SIM808 started"));
         GSM_CheckStatus();
     }
+
     //enable GPS
     if (!SIM808.enableGPS(true))
     {
-        Serial.println("Can't begin GPS");
+        Sprintln(F("Can't begin GPS"));
+        RESET_SIM808();
+        return false;
     }
     else{
-        Serial.println("GPS begined");
+        Sprintln(F("GPS begined"));
     }
+    
+    return true;
 }
 
 bool SIM_808::postJson(JsonDocument &json)
@@ -92,58 +93,56 @@ bool SIM_808::postJson(JsonDocument &json)
     serializeJson(json, data, BUFF_SIZE);
     SIM_808::GSM_CheckStatus();
     SIM808.enableGPRS(true);
-    uint8_t rssi = SIM808.getRSSI();
+    //uint8_t rssi = SIM808.getRSSI();
     uint8_t gprsState = SIM808.GPRSstate();
 
-    Serial.println(" ------ HTTP POST ------");
-    Serial.println("      HOST: ");
-    Serial.println(GPRS_POST_URL);
-    Serial.println("      BODY: ");
-    Serial.println(data);
-    Serial.println("      GPRS: ");
-    Serial.println(gprsState);
-    Serial.println("      RSSI: ");
-    Serial.println(rssi);
+    Sprintln(F("------ HTTP POST ------")); 
+    Sprintln(F("      HOST: "));
+    Sprintln(GPRS_POST_URL);
+    Sprintln(F("      BODY: "));
+    Sprintln(data);
+    Sprintln(F("      GPRS: "));
+    Sprintln(gprsState);
+    // Sprintln(F("      RSSI: "));
+    // Sprintln(rssi);
 
     postStatus = SIM808.HTTP_POST_start(GPRS_POST_URL,F("application/json"),(uint8_t *)data,strlen(data),&statuscode,&length);
-
-    delay(200);
 
     SIM808.HTTP_POST_end();
 
     if (!postStatus)
     {
-        Serial.println("      POST: ERROR");
+        Sprintln(F("      POST: ERROR"));
     }
 
     switch (statuscode)
     {
     case HTTP_ERROR:
-        Serial.println("    STATUS: CAN'T SEND REQUEST");
+        Sprintln(F("    STATUS: CAN'T SEND REQUEST"));
         break;
     case HTTP_OK:
-        Serial.println("    STATUS: OK");
+        Sprintln(F("    STATUS: OK"));
         break;
     case HTTP_NO_CONTENT:
-        Serial.println("    STATUS: OK, NO CONTENT");
+        Sprintln(F("    STATUS: OK, NO CONTENT"));
         break;
     case HTTP_BAD_REQUEST:
-        Serial.println("    STATUS: BAD REQUEST");
+        Sprintln(F("    STATUS: BAD REQUEST"));
         break;
     case HTTP_NOT_FOUND:
-        Serial.println("    STATUS: NOT FOUND 404");
+        Sprintln(F("    STATUS: NOT FOUND 404"));
         break;
     case HTTP_NETWORK_ERROR:
-        Serial.println("    STATUS: NETWORK ERROR");
+        Sprintln(F("    STATUS: NETWORK ERROR"));
         //RESET_SIM808();
         break;
     case HTTP_DNS_ERROR:
-        Serial.println("    STATUS: HOST ERROR");
+        Sprintln(F("    STATUS: HOST ERROR"));
         break;
     default:
-        Serial.print("    STATUS: Unkown status code (");
-        Serial.print(statuscode);
-        Serial.println(")");
+        Sprint(F("    STATUS: Unkown status code ("));
+        Sprint(statuscode);
+        Sprintln(F(")"));
         RESET_SIM808();
         break;
     }
@@ -172,7 +171,13 @@ void SIM_808::updateGps()
     bool rslt = SIM808.getGPS(&lat, &lon, &spd, &head, &alt);
     if (!rslt)
     {
-        Serial.println(F("Error updating GPS status"));
+        Sprint(F("Error updating GPS status"));
+        Sprint(F("Adding default location"));
+        _location.longitude = -103.39556;
+        _location.latitude = 20.572337;
+        _location.altitude = 1517;
+
+        SIM_808::addLocationDevice(_location);
     }
     else
     {

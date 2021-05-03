@@ -1,5 +1,6 @@
 #include "modbus/modbus.h"
 #include "json/json.h"
+#include "macro.h"
 
 uint8_t soilSensorCounter=0;
 uint8_t leafSensorCounter=0;
@@ -291,14 +292,8 @@ bool MODBUS::ModBus_MakeCMD(uint8_t address, uint8_t function_code)
             MODBUS_SERIAL.write((uint8_t*)&cmd, sizeof(cmd));
             MODBUS_SERIAL.setTimeout(1000);
             if ((MODBUS_SERIAL.readBytes(buffer, RX_LENGHT_WITHOUT_DATA + dataBytes))==(RX_LENGHT_WITHOUT_DATA + dataBytes)){
-                //Serial.write(buffer, RX_LENGHT_WITHOUT_DATA + dataBytes);
-                uint8_t *buffer_data = &buffer[3]; // the data come after 3 bytes |adress| |cmd| |byte length| |DATA|
 
-                // for(uint8_t i = 0; i < RX_LENGHT_WITHOUT_DATA + dataBytes; i++){
-                //     Serial.print(buffer[i],HEX);
-                //     Serial.print(" ");
-                // }
-                // Serial.println(" ");
+                uint8_t *buffer_data = &buffer[3]; // the data come after 3 bytes |adress| |cmd| |byte length| |DATA|
 
                 Check_CRC = validate_checksum(buffer, RX_LENGHT_WITHOUT_DATA + dataBytes);
                 if(Check_CRC){
@@ -366,17 +361,17 @@ bool MODBUS::ModBus_MakeCMD(uint8_t address, uint8_t function_code)
                     }
                 }
                 else{
-                    Serial.println("BAD CRC");
+                    Sprintln(F("BAD CRC "));
                 }
             }
             else{
-                Serial.println("Error en la respuesta");
+                Sprintln(F("Error en la respuesta"));
             }
             
         }
     }
     else{
-        Serial.println("Sensor no registrado");
+        Sprintln(F("Sensor no registrado"));
     }
     return false;
 }
@@ -387,12 +382,12 @@ void MODBUS::makeMeasures()
     for (uint8_t i = 0; i < (sizeof(sensorAddresses)/sizeof(uint8_t)); i++) {
         bool state = MODBUS::ModBus_MakeCMD(sensorAddresses[i], modbus_enum::MODBUS_CMD_READ);
         if(state){
-            Serial.print("Exito, sensor: ");
-            Serial.println(sensorAddresses[i],HEX);
+            Sprintln(F("Exito, sensor: "));
+            //Serial.println(sensorAddresses[i],HEX);
         }
         else{
-            Serial.print("Error, sensor: ");
-            Serial.println(sensorAddresses[i],HEX);
+            Sprintln(F("Error, sensor: "));
+            //Serial.println(sensorAddresses[i],HEX);
         }
     }
 

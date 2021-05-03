@@ -46,7 +46,7 @@ class SIM_808
 {
   public:
   void GSM_CheckStatus();
-  void setup_SIM808();
+  bool setup_SIM808();
   void RESET_SIM808();
   bool postJson(JsonDocument &json);
   void updateGps();
