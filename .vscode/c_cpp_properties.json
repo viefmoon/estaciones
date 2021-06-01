@@ -12,6 +12,8 @@
                 "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/src",
                 "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
                 "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/lib/Adafruit_FONA_Library",
+                "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/lib/Adafruit_BusIO",
+                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/variants/mega",
@@ -34,7 +36,6 @@
                 "C:/Users/lmora/.platformio/lib/SoftwareSerial",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                 "C:/Users/lmora/.platformio/packages/tool-unity",
                 ""
@@ -46,6 +47,8 @@
                     "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/src",
                     "C:/Users/lmora/.platformio/lib/ArduinoJson_ID64/src",
                     "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/lib/Adafruit_FONA_Library",
+                    "C:/Users/lmora/Documents/PlatformIO/Projects/modbus/estaciones/lib/Adafruit_BusIO",
+                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/variants/mega",
@@ -68,7 +71,6 @@
                     "C:/Users/lmora/.platformio/lib/SoftwareSerial",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "C:/Users/lmora/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                     "C:/Users/lmora/.platformio/packages/tool-unity",
                     ""

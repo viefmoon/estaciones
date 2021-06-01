@@ -184,7 +184,6 @@ class MODBUS
     uint8_t detect_type(uint8_t );
 
     bool ModBus_MakeCMD(uint8_t , uint8_t);
-
     void makeMeasures();
 
     void registerMeasure(uint8_t , uint8_t);

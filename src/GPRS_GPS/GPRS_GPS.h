@@ -5,7 +5,7 @@
 
 #define SIM808_SERIAL Serial1
 #define SIM808_SERIAL_BAUDRATE 19200
-#define SIM808_RST_PIN 4
+#define SIM808_RST_PIN 30
 
 //Gprs post hostname server
 #define GPRS_POST_SERVER "pomas.agricos.mx" 

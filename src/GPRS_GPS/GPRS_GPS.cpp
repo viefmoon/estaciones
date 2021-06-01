@@ -22,6 +22,7 @@ void SIM_808::RESET_SIM808()
     digitalWrite(SIM808_RST_PIN, HIGH);
     delay(1500);
     digitalWrite(SIM808_RST_PIN, LOW);
+    delay(120000);
 }
 
 void SIM_808::GSM_CheckStatus()
@@ -52,6 +53,7 @@ void SIM_808::GSM_CheckStatus()
 bool SIM_808::setup_SIM808()
 {
     RESET_SIM808();
+    //SIM808.setGPRSNetworkSettings(F("internet.emt.ee "), F(""), F(""));
     SIM808.setGPRSNetworkSettings(F("internet.itelcel.com"), F("webgprs"), F("webgprs2002"));
 
     SIM808_SERIAL.begin(SIM808_SERIAL_BAUDRATE);
@@ -89,7 +91,7 @@ bool SIM_808::postJson(JsonDocument &json)
     uint16_t statuscode;
     uint16_t length = 0;
 
-    SIM808.setGPRSNetworkSettings(F("internet.itelcel.com"), F("webgprs"), F("webgprs2002"));
+    SIM808.setGPRSNetworkSettings(F("internet.emt.ee "), F(""), F(""));
     serializeJson(json, data, BUFF_SIZE);
     SIM_808::GSM_CheckStatus();
     SIM808.enableGPRS(true);
@@ -135,6 +137,7 @@ bool SIM_808::postJson(JsonDocument &json)
     case HTTP_NETWORK_ERROR:
         Sprintln(F("    STATUS: NETWORK ERROR"));
         //RESET_SIM808();
+        delay(10000);
         break;
     case HTTP_DNS_ERROR:
         Sprintln(F("    STATUS: HOST ERROR"));
@@ -143,7 +146,8 @@ bool SIM_808::postJson(JsonDocument &json)
         Sprint(F("    STATUS: Unkown status code ("));
         Sprint(statuscode);
         Sprintln(F(")"));
-        RESET_SIM808();
+        //RESET_SIM808();
+        delay(10000);
         break;
     }
     return postStatus || statuscode == 200;
