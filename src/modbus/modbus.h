@@ -35,12 +35,17 @@
 #define SOIL_BYTE_LENGHT    0x0300
 #define THP_BYTE_LENGHT     0x0300
 #define NPK_BYTE_LENGHT     0x0300
+#define AP_BYTE_LENGHT      0x0300
+#define RT_BYTE_LENGHT      0x0300
 
 #define PH_START_ADDRESS    0x0100
 #define LEAF_START_ADDRESS  0x0200
 #define SOIL_START_ADDRESS  0x0000
 #define THP_START_ADDRESS   0x0000
 #define NPK_START_ADDRESS   0x1E00
+#define AP_START_ADDRESS    0x0000
+#define RT_START_ADDRESS    0x0000
+
 
 extern uint8_t sensorAddresses[];
 
@@ -49,6 +54,8 @@ extern uint8_t leafSensorCounter;
 extern uint8_t phSensorCounter;
 extern uint8_t thpSensorCounter;
 extern uint8_t npkSensorCounter;
+extern uint8_t apSensorCounter;
+extern uint8_t rtSensorCounter;
 
 namespace modbus_structs
 {
@@ -95,6 +102,20 @@ namespace modbus_structs
         uint16_t phosphorus;
         uint16_t potassium;
     } rawNpk;
+
+        typedef struct
+    {
+        uint16_t wind_direction;
+        uint16_t wind_speed;
+        uint16_t water;
+    } rawAp;
+
+    typedef struct
+    {
+        uint16_t par;
+        uint16_t total_r;
+        uint16_t uv;
+    } rawRt;
     //*******************************************
 
     //Structs to save measures
@@ -130,6 +151,20 @@ namespace modbus_structs
         float phosphorus;
         float potassium;
     } NpkSensorMeasure;
+
+    typedef struct
+    {
+        float wind_direction;
+        float wind_speed;
+        float water;
+    } ApSensorMeasure;
+
+    typedef struct
+    {
+        float par;
+        float total_r;
+        float uv;
+    } RtSensorMeasure;
     //*******************************************
 } //End struct namespace
 
@@ -142,7 +177,9 @@ namespace modbus_enum
         MODBUS_SENSOR_LEAF,
         MODBUS_SENSOR_PH,
         MODBUS_SENSOR_THP,
-        MODBUS_SENSOR_NPK
+        MODBUS_SENSOR_NPK,
+        MODBUS_SENSOR_AP,
+        MODBUS_SENSOR_RT
     } Modbus_SensorTypes;
 
     typedef enum
@@ -167,6 +204,10 @@ class MODBUS
 
     modbus_structs::NpkSensorMeasure buffer_to_npk(uint8_t *);
 
+    modbus_structs::ApSensorMeasure buffer_to_ap(uint8_t *);
+
+    modbus_structs::RtSensorMeasure buffer_to_rt(uint8_t *);
+
     uint16_t calculate_crc16(uint8_t *, uint8_t );
 
     void RegisterPHMeasure(modbus_structs::pHSensorMeasure, uint8_t );
@@ -178,6 +219,10 @@ class MODBUS
     void RegisterThpMeasure(modbus_structs::ThpSensorMeasure , uint8_t );
 
     void RegisterNpkMeasure(modbus_structs::NpkSensorMeasure , uint8_t );
+
+    void RegisterApMeasure(modbus_structs::ApSensorMeasure , uint8_t );
+
+    void RegisterRtMeasure(modbus_structs::RtSensorMeasure , uint8_t );
 
     bool validate_checksum(uint8_t *, uint8_t );
 

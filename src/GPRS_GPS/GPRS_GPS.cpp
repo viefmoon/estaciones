@@ -53,8 +53,13 @@ void SIM_808::GSM_CheckStatus()
 bool SIM_808::setup_SIM808()
 {
     RESET_SIM808();
+<<<<<<< Updated upstream
     //SIM808.setGPRSNetworkSettings(F("internet.emt.ee "), F(""), F(""));
     SIM808.setGPRSNetworkSettings(F("internet.itelcel.com"), F("webgprs"), F("webgprs2002"));
+=======
+    SIM808.setGPRSNetworkSettings(F("internet.emt.ee "), F(""), F(""));
+    //SIM808.setGPRSNetworkSettings(F("internet.itelcel.com"), F("webgprs"), F("webgprs2002"));
+>>>>>>> Stashed changes
 
     SIM808_SERIAL.begin(SIM808_SERIAL_BAUDRATE);
 
@@ -92,6 +97,11 @@ bool SIM_808::postJson(JsonDocument &json)
     uint16_t length = 0;
 
     SIM808.setGPRSNetworkSettings(F("internet.emt.ee "), F(""), F(""));
+<<<<<<< Updated upstream
+=======
+    //SIM808.setGPRSNetworkSettings(F("internet.itelcel.com"), F("webgprs"), F("webgprs2002"));
+
+>>>>>>> Stashed changes
     serializeJson(json, data, BUFF_SIZE);
     SIM_808::GSM_CheckStatus();
     SIM808.enableGPRS(true);
