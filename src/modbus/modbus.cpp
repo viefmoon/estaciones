@@ -7,8 +7,10 @@ uint8_t leafSensorCounter=0;
 uint8_t phSensorCounter=0;
 uint8_t thpSensorCounter=0;
 uint8_t npkSensorCounter=0;
+uint8_t apSensorCounter=0;
+uint8_t rtSensorCounter=0;
 
-uint8_t sensorAddresses[] = {0x11,0x10,0x33,0x50};
+uint8_t sensorAddresses[] = {0x10,0x33,0x50,0xC0};
 
 void MODBUS::swap_bytes(uint16_t *byte)
 {
@@ -25,7 +27,7 @@ modbus_structs::pHSensorMeasure MODBUS::buffer_to_ph(uint8_t *buffer)
     return {(float)raw.ph / 100.0F};
 }
 
-modbus_structs::LeafSensorMeasure MODBUS::  buffer_to_leaf(uint8_t *buffer)
+modbus_structs::LeafSensorMeasure MODBUS::buffer_to_leaf(uint8_t *buffer)
 {
     modbus_structs::rawLeaf raw = *((modbus_structs::rawLeaf *)buffer);
     MODBUS::swap_bytes(&raw.leaf_humidity);
@@ -65,6 +67,28 @@ modbus_structs::NpkSensorMeasure MODBUS::buffer_to_npk(uint8_t *buffer)
     MODBUS::swap_bytes(&raw.potassium);
 
     return {(float)raw.nitrogen, (float)raw.phosphorus, (float)raw.potassium};
+}
+
+modbus_structs::ApSensorMeasure MODBUS::buffer_to_ap(uint8_t *buffer)
+{
+    modbus_structs::rawAp raw = *((modbus_structs::rawAp *)buffer);
+
+    MODBUS::swap_bytes(&raw.wind_direction);
+    MODBUS::swap_bytes(&raw.wind_speed);
+    MODBUS::swap_bytes(&raw.water);
+
+    return {(float)raw.wind_direction, ((float)raw.wind_speed / 100.0F), ((float)raw.water / 100.0F)};
+}
+
+modbus_structs::RtSensorMeasure MODBUS::buffer_to_rt(uint8_t *buffer)
+{
+    modbus_structs::rawRt raw = *((modbus_structs::rawRt *)buffer);
+
+    MODBUS::swap_bytes(&raw.par);
+    MODBUS::swap_bytes(&raw.total_r);
+    MODBUS::swap_bytes(&raw.uv);
+
+    return {(float)raw.par, (float)raw.total_r, (float)raw.uv};
 }
 
 uint16_t MODBUS::calculate_crc16(uint8_t *buf, uint8_t len)
@@ -172,6 +196,40 @@ void MODBUS::RegisterNpkMeasure(modbus_structs::NpkSensorMeasure npk, uint8_t in
     }
 }
 
+void MODBUS::RegisterApMeasure(modbus_structs::ApSensorMeasure ap, uint8_t index)
+{
+    switch (index)
+    {
+    case 1:
+        DeviceMeasures.addMeasure(ap.wind_direction, F("wd1"));
+        DeviceMeasures.addMeasure(ap.wind_speed, F("ws1"));
+        DeviceMeasures.addMeasure(ap.water, F("w1"));
+        break;
+    case 2:
+        DeviceMeasures.addMeasure(ap.wind_direction, F("wd2"));
+        DeviceMeasures.addMeasure(ap.wind_speed, F("ws2"));
+        DeviceMeasures.addMeasure(ap.water, F("w2"));
+        break;
+    }
+}
+
+void MODBUS::RegisterRtMeasure(modbus_structs::RtSensorMeasure rt, uint8_t index)
+{
+    switch (index)
+    {
+    case 1:
+        DeviceMeasures.addMeasure(rt.par, F("par"));
+        DeviceMeasures.addMeasure(rt.total_r, F("total"));
+        DeviceMeasures.addMeasure(rt.uv, F("uv"));
+        break;
+    case 2:
+        DeviceMeasures.addMeasure(rt.par, F("par"));
+        DeviceMeasures.addMeasure(rt.total_r, F("total"));
+        DeviceMeasures.addMeasure(rt.uv, F("uv"));
+        break;
+    }
+}
+
 bool MODBUS::validate_checksum(uint8_t *buffer, uint8_t length)
 {
     uint16_t crc = buffer[length-1]<< 8U | (buffer[length-2]);
@@ -209,7 +267,8 @@ uint8_t MODBUS::detect_type(uint8_t addressSensor){
         //Water potential sensor (Pressure sensor on tensiometer)
     }
     else if ((addressSensor >= 0x70) && (addressSensor <= 0x7F)){
-        //UV radiation sensor
+        //Radiation sensors 
+        type_sensor = modbus_enum::MODBUS_SENSOR_RT;
     }
     else if ((addressSensor >= 0x80) && (addressSensor <= 0x8F)){
         //PAR radiation sensor
@@ -225,7 +284,7 @@ uint8_t MODBUS::detect_type(uint8_t addressSensor){
         type_sensor = modbus_enum::MODBUS_SENSOR_LEAF;
     }
     else if ((addressSensor >= 0xC0) && (addressSensor <= 0xC5)){
-        //rain volume sensor (pluviometer)
+        type_sensor = modbus_enum::MODBUS_SENSOR_AP;
     }
     else if ((addressSensor >= 0xC6) && (addressSensor <= 0xCA)){
         //wind speed sensor (anemometer)
@@ -277,6 +336,17 @@ bool MODBUS::ModBus_MakeCMD(uint8_t address, uint8_t function_code)
         npkSensorCounter++;
         cmd.registerStartAddress = NPK_START_ADDRESS;
         cmd.registerLength = NPK_BYTE_LENGHT;
+        dataBytes = 6;
+    case modbus_enum::MODBUS_SENSOR_AP:
+        apSensorCounter++;
+        cmd.registerStartAddress = AP_START_ADDRESS;
+        cmd.registerLength = AP_BYTE_LENGHT;
+        dataBytes = 6;
+        break;
+    case modbus_enum::MODBUS_SENSOR_RT:
+        rtSensorCounter++;
+        cmd.registerStartAddress = RT_START_ADDRESS;
+        cmd.registerLength = RT_BYTE_LENGHT;
         dataBytes = 6;
         break;
     }
@@ -358,6 +428,32 @@ bool MODBUS::ModBus_MakeCMD(uint8_t address, uint8_t function_code)
                         return true;
                         }
                         break;
+                    case modbus_enum::MODBUS_SENSOR_AP:
+                        {
+                        modbus_structs::ApSensorMeasure apMeasures = MODBUS::buffer_to_ap(buffer_data);
+                        // Serial.print("Wind direction: ");
+                        // Serial.println(apMeasures.);
+                        // Serial.print("Wind speed: ");
+                        // Serial.println(apMeasures.);
+                        // Serial.print("Water: ");
+                        // Serial.println(apMeasures.);
+                        RegisterApMeasure(apMeasures, apSensorCounter);
+                        return true;
+                        }
+                        break;
+                    case modbus_enum::MODBUS_SENSOR_RT:
+                        {
+                        modbus_structs::RtSensorMeasure rtMeasures = MODBUS::buffer_to_rt(buffer_data);
+                        // Serial.print("Wind direction: ");
+                        // Serial.println(apMeasures.);
+                        // Serial.print("Wind speed: ");
+                        // Serial.println(apMeasures.);
+                        // Serial.print("Water: ");
+                        // Serial.println(apMeasures.);
+                        RegisterRtMeasure(rtMeasures, rtSensorCounter);
+                        return true;
+                        }
+                        break;
                     }
                 }
                 else{
@@ -396,6 +492,8 @@ void MODBUS::makeMeasures()
     phSensorCounter=0;
     thpSensorCounter=0;
     npkSensorCounter=0;
+    apSensorCounter=0;
+    rtSensorCounter=0;
 }
 
 
@@ -418,6 +516,12 @@ void MODBUS::registerMeasure(uint8_t no_sensor, uint8_t type)
         break;
     case modbus_enum::MODBUS_SENSOR_NPK:
         MODBUS::RegisterNpkMeasure(MODBUS::buffer_to_npk(ptr_to_data), no_sensor);
+        break;
+    case modbus_enum::MODBUS_SENSOR_AP:
+        MODBUS::RegisterApMeasure(MODBUS::buffer_to_ap(ptr_to_data), no_sensor);
+        break;
+    case modbus_enum::MODBUS_SENSOR_RT:
+        MODBUS::RegisterRtMeasure(MODBUS::buffer_to_rt(ptr_to_data), no_sensor);
         break;
     default:
         break;
